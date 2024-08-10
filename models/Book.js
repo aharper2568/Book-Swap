@@ -1,5 +1,6 @@
-const { Model, DataTypes } = require('sequelize')
-const sequelize = require('../config/connection')
+// models/Book.js
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/connection');
 
 class Book extends Model {}
 
@@ -16,18 +17,26 @@ Book.init({
   },
   author: {
     type: DataTypes.STRING,
-    allowNull:false,
+    allowNull: false,
+  },
+  coverImageUrl: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  googleBooksId: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   userId: {
-    type:DataTypes.INTEGER,
+    type: DataTypes.INTEGER,
     references: {
-      model: 'user',
-      key: 'id'
-    }
-  }, sequelize,
-  modelName: 'book'
- 
+      model: 'User',
+      key: 'id',
+    },
+  },
+}, {
+  sequelize,
+  modelName: 'Book',
+});
 
-})
-
-module.exports = Book
+module.exports = Book;
