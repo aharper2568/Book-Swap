@@ -29,4 +29,10 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
+router.get('/search', (req, res) => {
+  const query = req.query.query;
+  // Perform search logic here
+  res.render('search');
+});
+
 module.exports = router;
