@@ -10,6 +10,7 @@ document.getElementById('search-form').addEventListener('submit', async (event) 
       });
       if (response.ok) {
         const books = await response.json();
+        console.log(books)
         console.log('Retrieved books');
       } else {
         console.error('couldnt fetch books')
