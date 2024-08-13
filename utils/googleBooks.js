@@ -6,7 +6,15 @@ const searchBooks = async (query) => {
 
   try {
     const response = await axios.get(url);
-    return console.log(response.data.items); //test to show search results
+    pageRes = response.data.items.map(item => ({
+      googleBooksId: item.id,
+      title: item.volumeInfo.title,
+      author: item.volumeInfo.authors ? item.volumeInfo.authors.join(', ') : 'idk',
+      coverImageUrl: item.volumeInfo.imageLinks ? item.volumeInfo.thumbnail: 'idk',
+      
+    }))
+    console.log(pageRes); //test to show search results
+    return pageRes
   } catch (err){
     console.error('there as an error', err)
   }
