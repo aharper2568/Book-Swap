@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../models');
+const { User, Book } = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', withAuth, async (req, res) => {
@@ -16,6 +16,29 @@ router.get('/', withAuth, async (req, res) => {
       loggedIn: req.session.loggedIn,
     });
   } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// GET all books for homepage
+router.get('/collection', async (req, res) => {
+  const userId = req.session.userId
+  try {
+    const dbBookData = await Book.findAll({
+    where: {userId}
+    });
+
+    const books = dbBookData.map((book) =>
+      book.get({ plain: true })
+    );
+
+    res.render('collection', {
+      books,
+      loggedIn: req.session.loggedIn,
+      userId: req.session.userId,
+    });
+  } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });

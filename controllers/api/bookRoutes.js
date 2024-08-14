@@ -35,4 +35,30 @@ router.post('/', async (req, res) => {
     res.status(500).json({ error: 'Failed to add book to collection' });
   }
 });
+
+// get request to find books by user
+router.get('/user/:id', async (req, res) => {
+  try {
+    const books = await Book.findByPk(req.params.userId, {
+
+    });
+    res.status(200).json(books);
+  } catch (err) {
+    res.status(500).json({ error: 'No books associated with this user' });
+  }
+});
+
+//delete route to delete a users books
+//router.delete('/user/:id', async (req, res) => {
+//  try {
+//    const deleteBook = await Book.destroy({
+//      where: {
+//        id: req.params.userId
+//      }
+//    });
+//    res.status(200).json(deleteBook);
+//  } catch (err) {
+//    res.status(500).json(err);
+//  }
+//})
 module.exports = router;

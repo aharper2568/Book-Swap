@@ -39,8 +39,28 @@ function displaySearchResults(books) {
     <img src="${book.coverImageUrl}" alt="${book.title}">
     <h3>${book.title}</h3>
     <p>Author: ${book.author}</p>
+    <button id="add-book-btn"> Add Book to Collection </button>
     `;
 
     searchResults.appendChild(bookElement);
   })
 }
+
+async function addBook(googleBooksId, title, author, coverImageUrl) {
+  googleBooksId = book.googleBooksId;
+  title = book.title;
+  author = book.author
+  coverImageUrl = book.coverImageUrl
+  const response = await fetch('/api/books', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ googleBooksId,title,author, coverImageUrl, userId }),
+  });
+  
+  if (response.ok) {
+    alert('Book added!')
+  } else {
+    alert('book no add :(', error)
+  }
+};
+document.getElementById('add-book-btn').addEventListener('click', addBook);
