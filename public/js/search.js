@@ -10,8 +10,9 @@ document.getElementById('search-form').addEventListener('submit', async (event) 
       });
       if (response.ok) {
         const books = await response.json();
-        console.log(books)
+        displaySearchResults(books)
         console.log('Retrieved books');
+        console.log(books)
       } else {
         console.error('couldnt fetch books')
       }
@@ -19,4 +20,27 @@ document.getElementById('search-form').addEventListener('submit', async (event) 
       console.error('failed to fetch', err)
     }
   }
-})
+});
+
+function displaySearchResults(books) {
+  const searchResults = document.getElementById('search-results');
+  searchResults.innerHTML = '';
+
+  if (books.length === 0) {
+    searchResults.innerHTML = `<p>no books :/</p>`;
+    return;
+  }
+
+  books.forEach(book => {
+    const bookElement = document.createElement('div');
+    bookElement.className ='book';
+
+    bookElement.innerHTML = `
+    <img src="${book.coverImageUrl}" alt="${book.title}">
+    <h3>${book.title}</h3>
+    <p>Author: ${book.author}</p>
+    `;
+
+    searchResults.appendChild(bookElement);
+  })
+}
