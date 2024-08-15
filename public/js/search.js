@@ -1,3 +1,5 @@
+const userId = document.getElementById('userId').value;
+
 document.getElementById('search-form').addEventListener('submit', async (event) => {
   event.preventDefault();
   const query = document.getElementById('search-query').value.trim();
@@ -39,7 +41,7 @@ function displaySearchResults(books) {
     <img src="${book.coverImageUrl}" alt="${book.title}">
     <h3>${book.title}</h3>
     <p>Author: ${book.author}</p>
-    <button id="add-book-btn"> Add Book to Collection </button>
+    <button id="add-book-btn" onclick="addBook('${book.googleBooksId}','${book.title}','${book.author}','${book.coverImageUrl}')"> Add Book to Collection </button>
     `;
 
     searchResults.appendChild(bookElement);
@@ -47,20 +49,23 @@ function displaySearchResults(books) {
 }
 
 async function addBook(googleBooksId, title, author, coverImageUrl) {
-  googleBooksId = book.googleBooksId;
-  title = book.title;
-  author = book.author
-  coverImageUrl = book.coverImageUrl
+ 
+  console.log(userId)
   const response = await fetch('/api/books', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ googleBooksId,title,author, coverImageUrl, userId }),
+    body: JSON.stringify({ 
+      googleBooksId: String(googleBooksId),
+      title,
+      author, 
+      coverImageUrl, 
+      userId: parseInt(userId),
+    }),
   });
   
   if (response.ok) {
     alert('Book added!')
   } else {
-    alert('book no add :(', error)
+    alert('book no add :(')
   }
 };
-document.getElementById('add-book-btn').addEventListener('click', addBook);
