@@ -46,12 +46,16 @@ router.get('/collection', async (req, res) => {
   }
 });
 
-router.get('/collection/:id', async (req, res) => {
+router.get('/collection/:user_id', async (req, res) => {
   try {
     const dbUserData = await User.findByPk(req.params.user_id, {
-   include: [{ model: Book }]
+      include: [{ model: Book }]
     });
 
+    if (!dbUserData) {
+      res.status(404).json({ message: 'No user found with this id' });
+      return;
+    }
     const user = dbUserData.get({
       plain: true
     });
