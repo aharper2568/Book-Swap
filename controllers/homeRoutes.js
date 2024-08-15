@@ -22,16 +22,16 @@ router.get('/', withAuth, async (req, res) => {
 
 // GET all books for homepage
 router.get('/collection', async (req, res) => {
-  // const user = req.session.user_id
+  //const user = req.session.user_id
   try {
-    const dbBookData = await Book.findAll({
-      include:{model: User}
+    const dbBookData = await User.findByPk(req.params.id, {
+   include: [{ model: Book }]
     });
 
     const books = dbBookData.map((book) =>
       book.get({ plain: true })
     );
-
+//const books = dbBookData.get({ plain: true })
     res.render('collection', {
       books,
       loggedIn: req.session.loggedIn,

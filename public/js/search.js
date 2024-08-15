@@ -51,7 +51,7 @@ function displaySearchResults(books) {
 async function addBook(googleBooksId, title, author, coverImageUrl) {
  
   console.log(userId)
-  const response = await fetch('/api/books', {
+  const response = await fetch(`/api/books/user/${userId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ 

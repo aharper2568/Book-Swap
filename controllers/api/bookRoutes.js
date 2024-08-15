@@ -17,7 +17,7 @@ router.post('/search', async (req,res) => {
 })
 
 //post request to ADD A BOOK TO COLLECTION
-router.post('/', async (req, res) => {
+router.post('/user/:id', async (req, res) => {
   const { title, author, coverImageUrl, googleBooksId, userId } = req.body;
 
   try {
@@ -36,10 +36,19 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.get ('/', async (req, res) => {
+  try {
+    const books = await Book.findAll();
+    res.status(200).json(books)
+  }catch (err) {
+
+  }
+})
+
 // get request to find books by user
 router.get('/user/:id', async (req, res) => {
   try {
-    const books = await Book.findByPk(req.params.userId, {
+    const books = await Book.findByPk(req.params.id, {
 
     });
     res.status(200).json(books);
