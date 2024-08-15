@@ -20,18 +20,21 @@ router.get('/', withAuth, async (req, res) => {
   }
 });
 
-// GET all books for homepage
+// GET all books for homepage (user's collection)
 router.get('/collection', async (req, res) => {
-  //const user = req.session.user_id
   try {
-    const dbBookData = await User.findByPk(req.params.id, {
-   include: [{ model: Book }]
+    const dbUserData = await User.findByPk(req.session.user_id, {
+      include: [{ model: Book }]
     });
 
-    const books = dbBookData.map((book) =>
-      book.get({ plain: true })
-    );
-//const books = dbBookData.get({ plain: true })
+    if (!dbUserData) {
+      res.status(404).json({ message: 'No user found with this id' });
+      return;
+    }
+
+    const user = dbUserData.get({ plain: true });
+    const books = user.Books.map((book) => book);
+
     res.render('collection', {
       books,
       loggedIn: req.session.loggedIn,
@@ -43,12 +46,16 @@ router.get('/collection', async (req, res) => {
   }
 });
 
-router.get('/collection/:id', async (req, res) => {
+router.get('/collection/:user_id', async (req, res) => {
   try {
     const dbUserData = await User.findByPk(req.params.user_id, {
-   include: [{ model: Book }]
+      include: [{ model: Book }]
     });
 
+    if (!dbUserData) {
+      res.status(404).json({ message: 'No user found with this id' });
+      return;
+    }
     const user = dbUserData.get({
       plain: true
     });
