@@ -22,10 +22,10 @@ router.get('/', withAuth, async (req, res) => {
 
 // GET all books for homepage
 router.get('/collection', async (req, res) => {
-  const userId = req.session.userId
+  // const user = req.session.user_id
   try {
     const dbBookData = await Book.findAll({
-    where: {userId}
+      include:{model: User}
     });
 
     const books = dbBookData.map((book) =>
@@ -35,7 +35,7 @@ router.get('/collection', async (req, res) => {
     res.render('collection', {
       books,
       loggedIn: req.session.loggedIn,
-      userId: req.session.userId,
+      userId: req.session.user_id,
     });
   } catch (err) {
     console.log(err);
@@ -55,7 +55,10 @@ router.get('/login', (req, res) => {
 router.get('/search', (req, res) => {
   const query = req.query.query;
   // Perform search logic here
-  res.render('search');
+  // const userId = req.session.user_id
+  res.render('search', {
+    userId: req.session.user_id
+  });
 });
 
 router.get('/register', (req, res) => {
