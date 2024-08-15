@@ -43,6 +43,31 @@ router.get('/collection', async (req, res) => {
   }
 });
 
+router.get('/collection/:id', async (req, res) => {
+  try {
+    const dbUserData = await User.findByPk(req.params.user_id, {
+   include: [{ model: Book }]
+    });
+
+    const user = dbUserData.get({
+      plain: true
+    });
+    const books = user.Books.map((book)=> book)
+//const books = dbBookData.get({ plain: true })
+    res.render('collection', {
+      books,
+      viewUser: user,
+      loggedIn: req.session.loggedIn,
+      userId: req.session.user_id,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'An error occurred while fetching user collections' });
+  }
+});
+
+
+
 router.get('/login', (req, res) => {
   if (req.session.loggedIn) {
     res.redirect('/');
