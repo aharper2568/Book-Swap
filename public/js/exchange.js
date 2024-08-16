@@ -9,7 +9,7 @@ exchangeButtons.forEach(button => {
     const userId = document.getElementById('userId').value; 
 
     try {
-      const response = await fetch('/api/books', {
+      const response = await fetch('/api/books/exchange', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

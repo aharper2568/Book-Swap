@@ -57,32 +57,21 @@ router.get('/user/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/exchange', async (req, res) => {
   const { newOwnerId, currentOwnerId, bookId } = req.body;
 
+  
   try {
-      const book = await Book.findByPk(bookId);
-      //const sourceUser = await User.findById(sourceUserId);
-      //const targetUser = await User.findById(targetUserId);
+    const book = await Book.findByPk(bookId);
 
-      if (book.userId !== currentOwnerId) {
+      if (book.userId !== Number(currentOwnerId)) {
           return res.status(400).json({ success: false, message: 'Invalid user or book IDs' });
       }
 
-      //if (!book.owner.equals(sourceUser._id)) {
-      //    return res.status(400).json({ success: false, message: 'The book does not belong to the source user' });
-      //}
+      await book.update({ userId: Number(newOwnerId) });
+      await book.save();
 
-      //sourceUser.bookCollection.pull(book._id);
-      //await sourceUser.save();
-//
-      //targetUser.bookCollection.push(book._id);
-      //await targetUser.save();
-
-      await book.update({ userId: newOwnerId });
-
-      res.json({ success: true });
-      res.render('trade')
+      res.status(200).json({book})
   } catch (err) {
       res.status(500).json(err);
   }
