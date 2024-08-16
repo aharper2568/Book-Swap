@@ -1,14 +1,12 @@
-module.exports = {
-  get_emoji: () => {
-    const randomNum = Math.random();
-    let book = "📗";
 
-    if (randomNum > 0.7) {
-      book = "📘";
-    } else if (randomNum > 0.4) {
-      book = "📙";
+  const compareValues= function (a, b) {
+    if (a === b) {
+      return true;
+    } else {
+      return false
     }
+  }
 
-    return `<span for="img" aria-label="book">${book}</span>`;
-  },
-};
+console.log(compareValues(1,1))
+console.log(compareValues(1,2))
+module.exports= { compareValues }
