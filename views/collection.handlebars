@@ -7,12 +7,14 @@
     <h3> {{title}}</h3>
     <p>Author: {{author}}</p>
     
-    {{#if (compareValues viewUser.id userId)}}
-    <button class="btn btn-primary" data-book-id="{{book.id}}" data-owner-id="{{viewUser.id}}">Exchange Book</button>
+    {{!-- {{#if (compareValues viewUser.id userId)}} --}}
+    <button class="btn btn-primary exchange-btn" data-book-id="{{book.id}}" data-owner-id="{{@root.viewUser.id}}">Exchange Book</button>
     <button class="btn btn-danger" data-book-id="{{book.id}}">Delete Book</button>
-    {{/if}}
+    {{!-- {{/if}} --}}
 
 
   </div>
 </div>
 {{/each}}
+
+<script src="/js/exchange.js"></script>
