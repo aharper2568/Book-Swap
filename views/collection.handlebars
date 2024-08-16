@@ -1,11 +1,17 @@
-<h2>My collection</h2>
+<div style="display: none"><input id="userId" value="{{userId}}"></div>
+<h2>{{viewUser.name}}'s collection</h2>
 {{#each books as |book|}}
 <div id="collection">
   <div class="book">
     <img src="{{coverImageUrl}}">
     <h3> {{title}}</h3>
     <p>Author: {{author}}</p>
-    <p> </p>
+    
+    {{#if (compareValues viewUser.id userId)}}
+    <button class="btn btn-primary" data-book-id="{{book.id}}" data-owner-id="{{viewUser.id}}">Exchange Book</button>
+    <button class="btn btn-danger" data-book-id="{{book.id}}">Delete Book</button>
+    {{/if}}
+
 
   </div>
 </div>
