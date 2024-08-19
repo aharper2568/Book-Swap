@@ -1,0 +1,19 @@
+<table class="table">
+  <tbody>
+     <thead>
+    <tr>
+      <th>#</th>
+      <th>Transaction</th>
+    </tr>
+  </thead>
+    {{#each user.swaps}}
+    <tr>
+      <th>{{id}}</th>
+      <td>
+        {{lender.name}} lent {{book.title}} to {{borrower.name}}
+      </td>
+    </tr>
+    {{/each}}
+    {{log user.swaps}}
+  </tbody>
+</table>

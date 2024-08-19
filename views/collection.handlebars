@@ -7,7 +7,7 @@
     <h3> {{title}}</h3>
     <p>Author: {{author}}</p>
     
-    {{!-- {{#if (compareValues viewUser.id userId)}} --}}
+    {{!-- {{#if (compareValues @root.viewUser.id userId)}} --}}
     <button class="btn btn-primary exchange-btn" data-book-id="{{book.id}}" data-owner-id="{{@root.viewUser.id}}">Exchange Book</button>
     <button class="btn btn-danger" data-book-id="{{book.id}}">Delete Book</button>
     {{!-- {{/if}} --}}
@@ -16,5 +16,38 @@
   </div>
 </div>
 {{/each}}
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="successModalLabel">Exchange Successful</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        The book has been successfully exchanged.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="errorModalLabel">Exchange Failed</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        There was an issue with the exchange. Please try again.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
 
 <script src="/js/exchange.js"></script>

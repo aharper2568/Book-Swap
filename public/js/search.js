@@ -64,8 +64,14 @@ async function addBook(googleBooksId, title, author, coverImageUrl) {
   });
   
   if (response.ok) {
-    alert('Book added!')
+    // Show success modal
+    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+    successModal.show();
+
+
   } else {
-    alert('book no add :(')
+    // Show error modal
+    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+    errorModal.show();
   }
 };
