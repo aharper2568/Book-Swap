@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { searchBooks } = require('../../utils/googleBooks');
-const { Book, User } = require('../../models')
+const { Swap, Book, User } = require('../../models')
 
 // post request to SEARCH
 router.post('/search', async (req, res) => {
@@ -58,22 +58,28 @@ router.get('/user/:id', async (req, res) => {
 });
 
 router.post('/exchange', async (req, res) => {
-  const { newOwnerId, currentOwnerId, bookId } = req.body;
+  const { currentOwnerId, bookId } = req.body;
 
-  
+
   try {
     const book = await Book.findByPk(bookId);
 
-      if (book.userId !== Number(currentOwnerId)) {
-          return res.status(400).json({ success: false, message: 'Invalid user or book IDs' });
-      }
+    if (book.userId !== Number(currentOwnerId)) {
+      return res.status(400).json({ success: false, message: 'Invalid user or book IDs' });
+    }
 
-      await book.update({ userId: Number(newOwnerId) });
-      await book.save();
+    await book.update({ userId: Number(req.session.user_id) });
+    await book.save();
 
-      res.status(200).json({book})
+    await Swap.create({
+      lenderId: currentOwnerId,
+      borrowerId: req.session.user_id,
+      bookId: bookId,
+    });
+
+    res.status(200).json({ book })
   } catch (err) {
-      res.status(500).json(err);
+    res.status(500).json(err);
   }
 });
 //delete route to delete a users books
