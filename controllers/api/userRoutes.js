@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { User, Swap } = require('../../models');
 
 // CREATE new user
 router.post('/', async (req, res) => {
@@ -16,6 +16,19 @@ router.post('/', async (req, res) => {
 
       res.status(200).json(dbUserData);
     });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+router.get('/swaps', async (req, res) => {
+  try {
+    const user = await User.findByPk(req.session.user_id, {
+      include: [{ model: Swap }]
+    });
+
+    res.status(200).json(user);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
