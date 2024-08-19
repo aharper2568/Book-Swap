@@ -1,11 +1,15 @@
 const router = require('express').Router();
-const { User, Book } = require('../models');
+const { User, Book, Swap } = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', withAuth, async (req, res) => {
   try {
     const userData = await User.findAll({
       attributes: { exclude: ['password'] },
+      include: [{
+        model: Book,
+        limit: 3,
+      }],
       order: [['name', 'ASC']],
     });
 
@@ -20,35 +24,34 @@ router.get('/', withAuth, async (req, res) => {
   }
 });
 
-// GET all books for homepage (user's collection)
-router.get('/collection', async (req, res) => {
+router.get('/swaps', withAuth, async (req, res) => {
   try {
-    const dbUserData = await User.findByPk(req.session.user_id, {
-      include: [{ model: Book }]
+    const userData = await User.findByPk(req.session.user_id, {
+      include: [ { 
+        model: Swap,
+        include: [
+          { model: User, foreignKey: 'borrowerId', as: 'borrower' },
+          { model: User, foreignKey: 'borrowerId', as: 'lender' },
+          { model: Book },
+        ],
+      }]
     });
 
-    if (!dbUserData) {
-      res.status(404).json({ message: 'No user found with this id' });
-      return;
-    }
+    const user = userData.get({ plain: true });
 
-    const user = dbUserData.get({ plain: true });
-    const books = user.Books.map((book) => book);
-
-    res.render('collection', {
-      books,
+    res.render('swaps', {
+      user,
       loggedIn: req.session.loggedIn,
-      userId: req.session.user_id,
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json(err);
   }
 });
 
-router.get('/collection/:user_id', async (req, res) => {
+
+router.get('/collection/:user_id?', async (req, res) => {
   try {
-    const dbUserData = await User.findByPk(req.params.user_id, {
+    const dbUserData = await User.findByPk(req.params.user_id || req.session.user_id, {
       include: [{ model: Book }]
     });
 
@@ -59,7 +62,7 @@ router.get('/collection/:user_id', async (req, res) => {
     const user = dbUserData.get({
       plain: true
     });
-    const books = user.Books.map((book)=> book)
+    const books = user.books.map((book)=> book)
 //const books = dbBookData.get({ plain: true })
     res.render('collection', {
       books,

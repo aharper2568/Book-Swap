@@ -20,13 +20,24 @@ exchangeButtons.forEach(button => {
       });
 
       if (response.ok) {
-        alert('Exchanged :)');
-        location.reload();
+        // Show success modal
+        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        successModal.show();
+
+        // Optionally reload after the modal is closed
+        document.getElementById('successModal').addEventListener('hidden.bs.modal', () => {
+          location.reload();
+        });
       } else {
-        alert('no exchange :(');
+        // Show error modal
+        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+        errorModal.show();
       }
     } catch (err) {
       console.error('Error:', err);
+      // Show error modal
+      const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+      errorModal.show();
     }
   });
 });
