@@ -1,10 +1,6 @@
 
   const compareValues= function (a, b) {
-    if (a === b) {
-      return true;
-    } else {
-      return false
-    }
+    return a !== b;
   }
 
 console.log(compareValues(1,1))
