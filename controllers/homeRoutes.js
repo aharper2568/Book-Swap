@@ -49,7 +49,7 @@ router.get('/swaps', withAuth, async (req, res) => {
 });
 
 
-router.get('/collection/:user_id?', async (req, res) => {
+router.get('/collection/:user_id?', withAuth, async (req, res) => {
   try {
     const dbUserData = await User.findByPk(req.params.user_id || req.session.user_id, {
       include: [{ model: Book }]
@@ -87,7 +87,7 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
-router.get('/search', (req, res) => {
+router.get('/search', withAuth, (req, res) => {
   const query = req.query.query;
   // Perform search logic here
   // const userId = req.session.user_id
