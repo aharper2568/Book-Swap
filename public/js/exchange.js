@@ -1,6 +1,32 @@
 
 const exchangeButtons = document.querySelectorAll('.exchange-btn');
 
+const deleteButtons = document.querySelectorAll('.btn-danger');
+
+deleteButtons.forEach(button => {
+  button.addEventListener('click', async (event) => {
+    const bookId = event.target.getAttribute('data-book-id');
+
+    
+    try {
+      const response = await fetch(`/api/books/${bookId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const result = await response.json();
+      if(response.ok) {
+        document.getElementById(`book-${bookId}`).remove();
+        location.reload();
+      } else {
+        console.log(result);
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  })
+})
 
 exchangeButtons.forEach(button => {
   button.addEventListener('click', async (event) => {

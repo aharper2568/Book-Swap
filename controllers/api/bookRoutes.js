@@ -82,17 +82,16 @@ router.post('/exchange', async (req, res) => {
     res.status(500).json(err);
   }
 });
-//delete route to delete a users books
-//router.delete('/user/:id', async (req, res) => {
-//  try {
-//    const deleteBook = await Book.destroy({
-//      where: {
-//        id: req.params.userId
-//      }
-//    });
-//    res.status(200).json(deleteBook);
-//  } catch (err) {
-//    res.status(500).json(err);
-//  }
-//})
+
+router.delete('/:id', async (req, res) => {
+  try{
+const book = await Book.findByPk(req.params.id);
+if (book.userId === req.session.user_id) {
+  await book.destroy();
+  console.log('book deleted')
+}
+  } catch(err) {
+
+  }
+})
 module.exports = router;
