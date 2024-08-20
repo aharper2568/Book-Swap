@@ -33,7 +33,7 @@
           <h3 class="mt-2">{{title}}</h3>
           <p class="text-muted">Author: {{author}}</p>
 
-          {{#if (compareValues @root.userId userId)}}
+          {{#if (compareValues @root.userId @root.userId)}}
           <button class="btn btn-primary me-2 exchange-btn" data-book-id="{{book.id}}"
             data-owner-id="{{@root.viewUser.id}}">Exchange Book</button>
           <button class="btn btn-danger" data-book-id="{{book.id}}">Delete Book</button>
