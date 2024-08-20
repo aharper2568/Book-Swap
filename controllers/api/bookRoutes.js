@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { searchBooks } = require('../../utils/googleBooks');
 const { Swap, Book, User } = require('../../models')
+const withAuth = require('../../utils/auth');
 
 // post request to SEARCH
-router.post('/search', async (req, res) => {
+router.post('/search', withAuth, async (req, res) => {
   const { query } = req.body;
 
   try {
@@ -17,7 +18,7 @@ router.post('/search', async (req, res) => {
 })
 
 //post request to ADD A BOOK TO COLLECTION
-router.post('/user/:id', async (req, res) => {
+router.post('/user/:id', withAuth, async (req, res) => {
   const { title, author, coverImageUrl, googleBooksId, userId } = req.body;
 
   try {
@@ -46,7 +47,7 @@ router.get('/', async (req, res) => {
 })
 
 // get request to find books by user
-router.get('/user/:id', async (req, res) => {
+router.get('/user/:id', withAuth, async (req, res) => {
   try {
     const books = await Book.findByPk(req.params.id, {
 
