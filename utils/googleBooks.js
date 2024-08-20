@@ -2,7 +2,7 @@ const axios = require('axios')
 
 const searchBooks = async (query) => {
   const apiKey = process.env.GOOGLE_BOOKS_API_KEY;
-  const url = `https://www.googleapis.com/books/v1/volumes?q=${(query)}&key=AIzaSyBdbftoxdcWYWl4ON9k2FvCpKhwnlFNHIA`
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${(query)}&key=${apiKey}`
 
   try {
     const response = await axios.get(url);
