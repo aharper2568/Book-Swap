@@ -40,7 +40,7 @@ function displaySearchResults(books) {
     bookElement.innerHTML = `
     <img src="${book.coverImageUrl}" alt="${book.title}">
     <h3>${book.title}</h3>
-    <p>Author: ${book.author}</p>
+    <p class="text-muted" >Author: ${book.author}</p>
     <button id="add-book-btn" onclick="addBook('${book.googleBooksId}','${book.title}','${book.author}','${book.coverImageUrl}')"> Add Book to Collection </button>
     `;
 
