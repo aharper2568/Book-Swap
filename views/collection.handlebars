@@ -36,6 +36,7 @@
           {{#if (compareValues @root.viewUser.id @root.userId)}}
           <button class="btn btn-primary me-2 exchange-btn" data-book-id="{{book.id}}"
             data-owner-id="{{@root.viewUser.id}}">Exchange Book</button>
+            {{else}}
           <button class="btn btn-danger" data-book-id="{{book.id}}">Delete Book</button>
           {{/if}}
         </div>
